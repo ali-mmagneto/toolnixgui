@@ -39,8 +39,7 @@ else
   echo "File already exists $CACHE_DIR/$FILE_NAME"
 fi
 
-cp -R $CACHE_DIR/MKVToolNix_GUI-${VERSION}/usr/bin $INSTALL_DIR
-cp -R $CACHE_DIR/MKVToolNix_GUI-${VERSION}/usr/lib $INSTALL_DIR
+cp -R $CACHE_DIR/mkvtoolnix-${VERSION}/usr $INSTALL_DIR
 
 PROFILE_PATH="$BUILD_DIR/.profile.d/mkvmerge.sh"
 ACTUAL_INSTALL_PATH="$HOME/vendor/mkvtoolnix"
