@@ -31,8 +31,8 @@ chmod a+x $FILE_NAME
 ./$FILE_NAME --appimage-extract
 mv squashfs-root "mkvtoolnix-${VERSION}"
 
-cp -R MKVToolNix_GUI-${VERSION}/bin $INSTALL_DIR
-cp -R MKVToolNix_GUI-${VERSION}/lib $INSTALL_DIR
+cp -R MKVToolNix_GUI-${VERSION}/usr/bin $INSTALL_DIR
+cp -R MKVToolNix_GUI-${VERSION}/usr/lib $INSTALL_DIR
 
 PROFILE_PATH="$BUILD_DIR/.profile.d/mkvmerge.sh"
 ACTUAL_INSTALL_PATH="$HOME/vendor/mkvtoolnix"
