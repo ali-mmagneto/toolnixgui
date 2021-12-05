@@ -41,9 +41,16 @@ fi
 
 cp -R $CACHE_DIR/mkvtoolnix-${VERSION}/usr $INSTALL_DIR
 
-mkdir -p $(dirname $PROFILE_PATH)
-echo 'export PATH="$PATH:${HOME}/vendor/mkvtoolnix/usr/bin"' >> $PROFILE_PATH
 PROFILE_PATH="$BUILD_DIR/.profile.d/mkvmerge.sh"
+mkdir -p $(dirname $PROFILE_PATH)
+echo 'export PATH="$PATH:${HOME}/vendor/mkvtoolnix/bin"' >> $PROFILE_PATH
+PROFILE_PATH="$BUILD_DIR/.profile.d/mkvpropedit.sh"
+mkdir -p $(dirname $PROFILE_PATH)
+echo 'export PATH="$PATH:${HOME}/vendor/mkvtoolnix/bin"' >> $PROFILE_PATH
+PROFILE_PATH="$BUILD_DIR/.profile.d/mkvextract.sh"
+mkdir -p $(dirname $PROFILE_PATH)
+echo 'export PATH="$PATH:${HOME}/vendor/mkvtoolnix/bin"' >> $PROFILE_PATH
+PROFILE_PATH="$BUILD_DIR/.profile.d/mkvinfo.sh"
 
 disp "MKVToolNix installed successfully."
 
