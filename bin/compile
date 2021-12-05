@@ -34,6 +34,3 @@ PROFILE_PATH="$BUILD_DIR/.profile.d/mkvextract.sh"
 mkdir -p $(dirname $PROFILE_PATH)
 echo 'export PATH="$PATH:${HOME}/vendor/mkvtoolnix/bin"' >> $PROFILE_PATH
 PROFILE_PATH="$BUILD_DIR/.profile.d/mkvinfo.sh"
-mkdir -p $(dirname $PROFILE_PATH)
-echo 'export PATH="$PATH:${HOME}/vendor/mkvtoolnix/bin"' >> $PROFILE_PATH
-PROFILE_PATH="$BUILD_DIR/.profile.d/mkvinfo.sh"
