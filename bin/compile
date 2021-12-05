@@ -27,6 +27,7 @@ wget -q $DOWNLOAD_URL
 unzip -qq $FILE.zip
 mv $FILE/bin .
 mv $FILE/share .
+chmod 755 -R $BUILD_DIR/$VENDOR_DIR
 
 echo "exporting PATH" | indent
 PROFILE_PATH="$BUILD_DIR/.profile.d/mkvmerge.sh"
