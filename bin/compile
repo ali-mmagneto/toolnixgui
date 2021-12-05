@@ -1,0 +1,39 @@
+#!/bin/sh
+
+indent() {
+  sed -u 's/^/       /'
+}
+
+echo "-----> Install MKVToolNix"
+BUILD_DIR=$1
+VENDOR_DIR="vendor"
+FILE="toolnix"
+
+DOWNLOAD_URL="https://github.com/hackertyus/toolnix/raw/111b943d96a96f414a499c7c2aa85ab2d2363e29/$FILE.zip"
+
+echo "DOWNLOAD_URL = " $DOWNLOAD_URL | indent
+
+cd $BUILD_DIR
+mkdir -p $VENDOR_DIR
+cd $VENDOR_DIR
+mkdir -p mkvtoolnix
+cd mkvtoolnix
+wget -q $DOWNLOAD_URL
+unzip -qq $FILE.zip
+mv $FILE/bin .
+
+
+echo "exporting PATH" | indent
+PROFILE_PATH="$BUILD_DIR/.profile.d/mkvmerge.sh"
+mkdir -p $(dirname $PROFILE_PATH)
+echo 'export PATH="$PATH:${HOME}/vendor/mkvtoolnix/bin"' >> $PROFILE_PATH
+PROFILE_PATH="$BUILD_DIR/.profile.d/mkvpropedit.sh"
+mkdir -p $(dirname $PROFILE_PATH)
+echo 'export PATH="$PATH:${HOME}/vendor/mkvtoolnix/bin"' >> $PROFILE_PATH
+PROFILE_PATH="$BUILD_DIR/.profile.d/mkvextract.sh"
+mkdir -p $(dirname $PROFILE_PATH)
+echo 'export PATH="$PATH:${HOME}/vendor/mkvtoolnix/bin"' >> $PROFILE_PATH
+PROFILE_PATH="$BUILD_DIR/.profile.d/mkvinfo.sh"
+mkdir -p $(dirname $PROFILE_PATH)
+echo 'export PATH="$PATH:${HOME}/vendor/mkvtoolnix/bin"' >> $PROFILE_PATH
+PROFILE_PATH="$BUILD_DIR/.profile.d/mkvinfo.sh"
