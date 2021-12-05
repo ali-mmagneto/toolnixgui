@@ -1,10 +1,16 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+disp() {
+  echo "-----> $*"
+}
 
 indent() {
   sed -u 's/^/       /'
 }
 
-echo "-----> Install MKVToolNix"
+disp "Install MKVToolNix"
 BUILD_DIR=$1
 VENDOR_DIR="vendor"
 FILE="toolnix"
@@ -22,8 +28,6 @@ unzip -qq $FILE.zip
 mv $FILE/lib .
 mv $FILE/bin .
 
-chmod +x ./vendor/mkvtoolnix/bin/mkvmerge
-
 echo "exporting PATH" | indent
 PROFILE_PATH="$BUILD_DIR/.profile.d/mkvmerge.sh"
 mkdir -p $(dirname $PROFILE_PATH)
@@ -35,4 +39,6 @@ PROFILE_PATH="$BUILD_DIR/.profile.d/mkvextract.sh"
 mkdir -p $(dirname $PROFILE_PATH)
 echo 'export PATH="$PATH:${HOME}/vendor/mkvtoolnix/bin"' >> $PROFILE_PATH
 PROFILE_PATH="$BUILD_DIR/.profile.d/mkvinfo.sh"
+
+disp "MKVToolNix installed successfully."
 
