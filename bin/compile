@@ -1,45 +1,46 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-set -eo pipefail
+set -ex
 
-disp() {
-  echo "-----> $*"
-}
-
-indent() {
-  sed -u 's/^/       /'
-}
-
-disp "Install MKVToolNix"
 BUILD_DIR=$1
-VENDOR_DIR="vendor"
-FILE="toolnix"
-
-DOWNLOAD_URL="https://github.com/hackertyus/toolnix/raw/main/$FILE.zip"
-
-echo "DOWNLOAD_URL = " $DOWNLOAD_URL | indent
-cd $BUILD_DIR
+APT_DIR=$BUILD_DIR/.apt
+VENDOR_DIR="$BUILD_DIR/vendor"
 mkdir -p $VENDOR_DIR
-cd $VENDOR_DIR
-mkdir -p mkvtoolnix
-cd mkvtoolnix
-wget -q $DOWNLOAD_URL
-unzip -qq $FILE.zip
-mv $FILE/bin .
-mv $FILE/share .
-chmod 755 -R $BUILD_DIR/$VENDOR_DIR
+INSTALL_DIR="$VENDOR_DIR/mkvtoolnix"
+mkdir -p $INSTALL_DIR
+CACHE_DIR=$2 # the contents of CACHE_DIR are persisted between builds
 
-echo "exporting PATH" | indent
+# mkvtoolnix
+if [ -f $BUILD_DIR/MKVToolNixAppImage ] ; then
+    DOWNLOAD=$(grep http $BUILD_DIR/MKVToolNixAppImage | head -n 1)
+else
+    DOWNLOAD="https://mkvtoolnix.download/appimage/MKVToolNix_GUI-63.0.0-x86_64.AppImage"
+fi
+VERSION=$(echo $DOWNLOAD | grep -Poi "(?<=MKVToolNix_GUI-)[^/]+(?=\.AppImage)")
+VERSION=${VERSION:-default} # avoid empty version if the grep fails to match
+FILE_NAME=MKVToolNix_GUI-${VERSION}.AppImage
+
+mkdir -p $CACHE_DIR
+if ! [ -e $CACHE_DIR/$FILE_NAME ]; then
+  echo "-----> Downloading MKVToolNix_GUI AppImage"
+  curl -L $DOWNLOAD > $CACHE_DIR/$FILE_NAME
+
+  echo "-----> Extracting MKVToolNix_GUI from AppImage archive"
+  cd $CACHE_DIR
+  chmod a+x $FILE_NAME
+  ./$FILE_NAME --appimage-extract
+  mv squashfs-root "mkvtoolnix-${VERSION}"
+else
+  echo "File already exists $CACHE_DIR/$FILE_NAME"
+fi
+
+cp -R $CACHE_DIR/MKVToolNix_GUI-${VERSION}/usr/bin $INSTALL_DIR
+cp -R $CACHE_DIR/MKVToolNix_GUI-${VERSION}/lib $INSTALL_DIR
+
 PROFILE_PATH="$BUILD_DIR/.profile.d/mkvmerge.sh"
+ACTUAL_INSTALL_PATH="$HOME/vendor/mkvtoolnix"
 mkdir -p $(dirname $PROFILE_PATH)
-echo 'export PATH="$PATH:${HOME}/vendor/mkvtoolnix/bin"' >> $PROFILE_PATH
-PROFILE_PATH="$BUILD_DIR/.profile.d/mkvpropedit.sh"
-mkdir -p $(dirname $PROFILE_PATH)
-echo 'export PATH="$PATH:${HOME}/vendor/mkvtoolnix/bin"' >> $PROFILE_PATH
-PROFILE_PATH="$BUILD_DIR/.profile.d/mkvextract.sh"
-mkdir -p $(dirname $PROFILE_PATH)
-echo 'export PATH="$PATH:${HOME}/vendor/mkvtoolnix/bin"' >> $PROFILE_PATH
-PROFILE_PATH="$BUILD_DIR/.profile.d/mkvinfo.sh"
-
-disp "MKVToolNix installed successfully."
+INSTALLED_VERSION=$(ls $INSTALL_DIR/opt)
+echo "export PATH=$ACTUAL_INSTALL_PATH/opt/$INSTALLED_VERSION/program:\$PATH" >> $PROFILE_PATH
+echo "export OFFICE_PATH=$ACTUAL_INSTALL_PATH/opt/$INSTALLED_VERSION" >> $PROFILE_PATH
 
