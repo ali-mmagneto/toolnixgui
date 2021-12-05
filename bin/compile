@@ -26,7 +26,6 @@ cd mkvtoolnix
 wget -q $DOWNLOAD_URL
 unzip -qq $FILE.zip
 mv $FILE/bin .
-mv $FILE/lib .
 mv $FILE/share .
 
 echo "exporting PATH" | indent
