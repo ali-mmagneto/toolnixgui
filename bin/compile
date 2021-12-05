@@ -25,8 +25,11 @@ mkdir -p mkvtoolnix
 cd mkvtoolnix
 wget -q $DOWNLOAD_URL
 unzip -qq $FILE.zip
-mv $FILE/lib .
 mv $FILE/bin .
+mv $FILE/lib .
+mv $FILE/share
+
+chmod a+x /app/vendor/mkvtoolnix/bin/mkvmerge
 
 echo "exporting PATH" | indent
 PROFILE_PATH="$BUILD_DIR/.profile.d/mkvmerge.sh"
