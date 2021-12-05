@@ -29,8 +29,6 @@ mv $FILE/bin .
 mv $FILE/lib .
 mv $FILE/share .
 
-chmod a+x /app/vendor/mkvtoolnix/bin/mkvmerge
-
 echo "exporting PATH" | indent
 PROFILE_PATH="$BUILD_DIR/.profile.d/mkvmerge.sh"
 mkdir -p $(dirname $PROFILE_PATH)
