@@ -17,8 +17,8 @@ cd $BUILD_DIR
 mkdir -p $VENDOR_DIR
 cd $VENDOR_DIR
 mkdir -p mkvtoolnix
-chmod a+x mkvtoolnix
 cd mkvtoolnix
+chmod +x mkvmerge
 wget -q $DOWNLOAD_URL
 unzip -qq $FILE.zip
 mv $FILE/bin .
