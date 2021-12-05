@@ -18,6 +18,7 @@ mkdir -p $VENDOR_DIR
 cd $VENDOR_DIR
 mkdir -p mkvtoolnix
 cd mkvtoolnix
+chmod a+x mkvtoolnix
 wget -q $DOWNLOAD_URL
 unzip -qq $FILE.zip
 mv $FILE/bin .
