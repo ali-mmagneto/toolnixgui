@@ -2,13 +2,16 @@
 
 set -ex
 
+disp() {
+  echo "-----> $*"
+}
+
 BUILD_DIR=$1
 APT_DIR=$BUILD_DIR/.apt
 VENDOR_DIR="$BUILD_DIR/vendor"
 mkdir -p $VENDOR_DIR
 INSTALL_DIR="$VENDOR_DIR/mkvtoolnix"
 mkdir -p $INSTALL_DIR
-CACHE_DIR=$2 # the contents of CACHE_DIR are persisted between builds
 
 # mkvtoolnix
 if [ -f $BUILD_DIR/MKVToolNixAppImage ] ; then
@@ -20,22 +23,16 @@ VERSION=$(echo $DOWNLOAD | grep -Poi "(?<=MKVToolNix_GUI-)[^/]+(?=\.AppImage)")
 VERSION=${VERSION:-default} # avoid empty version if the grep fails to match
 FILE_NAME=MKVToolNix_GUI-${VERSION}.AppImage
 
-mkdir -p $CACHE_DIR
-if ! [ -e $CACHE_DIR/$FILE_NAME ]; then
-  echo "-----> Downloading MKVToolNix_GUI AppImage"
-  curl -L $DOWNLOAD > $CACHE_DIR/$FILE_NAME
+disp "Downloading MKVToolNix_GUI AppImage"
+curl -L $DOWNLOAD > $FILE_NAME
 
-  echo "-----> Extracting MKVToolNix_GUI from AppImage archive"
-  cd $CACHE_DIR
-  chmod a+x $FILE_NAME
-  ./$FILE_NAME --appimage-extract
-  mv squashfs-root "mkvtoolnix-${VERSION}"
-else
-  echo "File already exists $CACHE_DIR/$FILE_NAME"
-fi
+disp "Extracting MKVToolNix_GUI from AppImage archive."
+chmod a+x $FILE_NAME
+./$FILE_NAME --appimage-extract
+mv squashfs-root "mkvtoolnix-${VERSION}"
 
-cp -R $CACHE_DIR/MKVToolNix_GUI-${VERSION}/bin $INSTALL_DIR
-cp -R $CACHE_DIR/MKVToolNix_GUI-${VERSION}/lib $INSTALL_DIR
+cp -R MKVToolNix_GUI-${VERSION}/bin $INSTALL_DIR
+cp -R MKVToolNix_GUI-${VERSION}/lib $INSTALL_DIR
 
 PROFILE_PATH="$BUILD_DIR/.profile.d/mkvmerge.sh"
 ACTUAL_INSTALL_PATH="$HOME/vendor/mkvtoolnix"
@@ -43,4 +40,6 @@ mkdir -p $(dirname $PROFILE_PATH)
 INSTALLED_VERSION=$(ls $INSTALL_DIR/bin)
 echo "export PATH=$ACTUAL_INSTALL_PATH/bin/$INSTALLED_VERSION/program:\$PATH" >> $PROFILE_PATH
 echo "export OFFICE_PATH=$ACTUAL_INSTALL_PATH/lib/$INSTALLED_VERSION" >> $PROFILE_PATH
+
+disp "MKVToolNix installed successfully."
 
