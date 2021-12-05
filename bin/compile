@@ -27,7 +27,7 @@ wget -q $DOWNLOAD_URL
 unzip -qq $FILE.zip
 mv $FILE/bin .
 mv $FILE/lib .
-mv $FILE/share
+mv $FILE/share .
 
 chmod a+x /app/vendor/mkvtoolnix/bin/mkvmerge
 
