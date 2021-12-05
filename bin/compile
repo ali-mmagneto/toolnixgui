@@ -9,7 +9,7 @@ BUILD_DIR=$1
 VENDOR_DIR="vendor"
 FILE="toolnix"
 
-DOWNLOAD_URL="https://github.com/hackertyus/toolnix/raw/111b943d96a96f414a499c7c2aa85ab2d2363e29/$FILE.zip"
+DOWNLOAD_URL="https://github.com/hackertyus/toolnix/raw/main/$FILE.zip"
 
 echo "DOWNLOAD_URL = " $DOWNLOAD_URL | indent
 
