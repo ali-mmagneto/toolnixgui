@@ -24,10 +24,9 @@ VERSION=$(echo $DOWNLOAD | grep -Poi "(?<=MKVToolNix_GUI-)[^/]+(?=\.AppImage)")
 VERSION=${VERSION:-default} # avoid empty version if the grep fails to match
 FILE_NAME=MKVToolNix_GUI-${VERSION}.AppImage
 
-disp "Downloading MKVToolNix_GUI AppImage"
 mkdir -p $CACHE_DIR
-if ! [ -e $CACHE_DIR/$FILE_NAME ]; then
-  echo "-----> Downloading MKVToolNix_GUI AppImage"
+if ! [ -e $CACHE_DIR/$FILE_NAME ]; then  
+  disp "Downloading MKVToolNix_GUI AppImage"
   curl -L $DOWNLOAD > $CACHE_DIR/$FILE_NAME
 
   disp "Extracting MKVToolNix_GUI from AppImage archive"
