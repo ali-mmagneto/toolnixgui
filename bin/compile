@@ -41,11 +41,9 @@ fi
 
 cp -R $CACHE_DIR/mkvtoolnix-${VERSION}/usr $INSTALL_DIR
 
-PROFILE_PATH="$BUILD_DIR/.profile.d/mkvmerge.sh"
-ACTUAL_INSTALL_PATH="$HOME/vendor/mkvtoolnix"
 mkdir -p $(dirname $PROFILE_PATH)
-INSTALLED_VERSION=$(ls $INSTALL_DIR/usr/bin)
-echo "export PATH=$ACTUAL_INSTALL_PATH/usr/$INSTALLED_VERSION/program:\$PATH" >> $PROFILE_PATH
+echo 'export PATH="$PATH:${HOME}/vendor/mkvtoolnix/bin"' >> $PROFILE_PATH
+PROFILE_PATH="$BUILD_DIR/.profile.d/mkvmerge.sh"
 
 disp "MKVToolNix installed successfully."
 
