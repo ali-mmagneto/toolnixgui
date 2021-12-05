@@ -21,7 +21,7 @@ cd mkvtoolnix
 wget -q $DOWNLOAD_URL
 unzip -qq $FILE.zip
 mv $FILE/bin .
-chmod +x ./$VENDOR_DIR/toolnix/bin/mkvmerge
+chmod -R 755 /$VENDOR_DIR
 
 
 echo "exporting PATH" | indent
