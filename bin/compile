@@ -12,7 +12,6 @@ FILE="toolnix"
 DOWNLOAD_URL="https://github.com/hackertyus/toolnix/raw/main/$FILE.zip"
 
 echo "DOWNLOAD_URL = " $DOWNLOAD_URL | indent
-
 cd $BUILD_DIR
 mkdir -p $VENDOR_DIR
 cd $VENDOR_DIR
@@ -20,8 +19,10 @@ mkdir -p mkvtoolnix
 cd mkvtoolnix
 wget -q $DOWNLOAD_URL
 unzip -qq $FILE.zip
+mv $FILE/lib .
 mv $FILE/bin .
-chmod 755 ./$VENDOR_DIR
+
+chmod +x ./vendor/mkvtoolnix/bin/mkvmerge
 
 echo "exporting PATH" | indent
 PROFILE_PATH="$BUILD_DIR/.profile.d/mkvmerge.sh"
