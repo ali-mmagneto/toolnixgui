@@ -18,9 +18,9 @@ mkdir -p $VENDOR_DIR
 cd $VENDOR_DIR
 mkdir -p mkvtoolnix
 cd mkvtoolnix
-chmod +x mkvmerge
 wget -q $DOWNLOAD_URL
 unzip -qq $FILE.zip
+chmod +x toolnix
 mv $FILE/bin .
 
 
