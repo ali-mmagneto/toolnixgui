@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/usr/bin/env bash
+# bin/compile <build-dir> <cache-dir>
 
 set -ex
 
@@ -50,6 +51,7 @@ PROFILE_PATH="$BUILD_DIR/.profile.d/mkvextract.sh"
 mkdir -p $(dirname $PROFILE_PATH)
 echo 'export PATH="$PATH:${HOME}/vendor/mkvtoolnix/usr/bin"' >> $PROFILE_PATH
 PROFILE_PATH="$BUILD_DIR/.profile.d/mkvinfo.sh"
+echo 'export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/vendor/mkvtoolnix/usr/lib"' >> $PROFILE_PATH
 
 disp "MKVToolNix installed successfully."
 
